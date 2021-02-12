@@ -1,5 +1,6 @@
 package com.github.vndovr.payment;
 
+import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,7 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.SneakyThrows;
 
 @AllArgsConstructor
 @Controller
@@ -28,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Paymenst API", description = "API for payments management")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Slf4j
 public class PaymentResource {
 
   private BeneficiariesClient beneficiariesClient;
@@ -47,9 +47,12 @@ public class PaymentResource {
           @ApiResponse(responseCode = "401", description = Descriptions.D401),
           @ApiResponse(responseCode = "403", description = Descriptions.D403),
           @ApiResponse(responseCode = "500", description = Descriptions.D500)})
+  @SneakyThrows
   public Response getRequisites() {
-    BeneficiaryROShort[] beneficiaries = beneficiariesClient.getBeneficiaries();
-    PublicHolidayRO[] publicHolidays = publicHolidaysClient.getPublicHolidays();
-    return Response.ok(new RequisiteRO(beneficiaries, publicHolidays)).build();
+    CompletableFuture<BeneficiaryROShort[]> beneficiaries =
+        CompletableFuture.supplyAsync(() -> beneficiariesClient.getBeneficiaries());
+    CompletableFuture<PublicHolidayRO[]> publicHolidays =
+        CompletableFuture.supplyAsync(() -> publicHolidaysClient.getPublicHolidays());
+    return Response.ok(new RequisiteRO(beneficiaries.get(), publicHolidays.get())).build();
   }
 }
