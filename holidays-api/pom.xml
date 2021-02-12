@@ -112,14 +112,16 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
 		<!-- spring boot starters -->
+		<!-- spring cloud starters -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<!-- spring cloud starters -->
 		<!-- graylog -->
 		<dependency>
 			<groupId>de.siegmar</groupId>
@@ -136,12 +138,6 @@
 			<artifactId>hibernate-ehcache</artifactId>
 		</dependency>
 		<!-- caching -->
-		<!-- active mq libraries -->
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-broker</artifactId>
-		</dependency>
-		<!-- active mq libraries -->
 		<!-- jdbc drivers -->
 		<dependency>
 			<groupId>com.h2database</groupId>
