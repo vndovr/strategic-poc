@@ -18,14 +18,13 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.github.vndovr.authentication.AuthenticationResource;
 import com.github.vndovr.common.mapper.ConstraintViolationExceptionMapper;
 import com.github.vndovr.common.mapper.DataIntegrityViolationExceptionMapper;
 import com.github.vndovr.common.mapper.FeignExceptionMapper;
 import com.github.vndovr.common.mapper.ObjectOptimisticLockingFailureExceptionMapper;
 import com.github.vndovr.common.mapper.StaleObjectStateExceptionMapper;
 import com.github.vndovr.common.mapper.ValidationExceptionMapper;
-import com.github.vndovr.user.UserResource;
+import com.github.vndovr.holiday.PublicHolidayResource;
 import feign.Contract;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -41,21 +40,20 @@ import io.swagger.v3.oas.annotations.servers.Server;
     info = @Info(title = "API", version = "v1", description = "REST APIs",
         contact = @Contact(name = "Uladzimir Radchuk", email = "radchuk@hotmail.com",
             url = "https://iba.by")),
-    servers = {@Server(url = "http://localhost:8080/api", description = "Local Server")})
+    servers = {@Server(url = "http://localhost:8083/api", description = "Local Server")})
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT",
     in = SecuritySchemeIn.HEADER, scheme = "bearer")
 @EnableFeignClients
 @EnableCaching
-public class Application extends ResourceConfig {
+public class PublicHolidaysApplication extends ResourceConfig {
 
   /**
    * Default constructor
    */
-  public Application() {
+  public PublicHolidaysApplication() {
     super();
     register(OpenApiResource.class);
-    register(AuthenticationResource.class);
-    register(UserResource.class);
+    register(PublicHolidayResource.class);
 
     register(ObjectMapperContextResolver.class);
     register(StaleObjectStateExceptionMapper.class);
@@ -77,7 +75,7 @@ public class Application extends ResourceConfig {
    * @param args
    */
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    SpringApplication.run(PublicHolidaysApplication.class, args);
   }
 
   /**

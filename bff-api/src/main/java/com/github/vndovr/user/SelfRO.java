@@ -7,8 +7,8 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "DTO contains information about current user settings")
-public class SelfDto {
+@Schema(description = "RO contains information about current user settings")
+public class SelfRO {
 
   @Schema(description = "user's login")
   private String username;

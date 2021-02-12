@@ -18,6 +18,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.github.vndovr.beneficiary.BeneficiaryResource;
 import com.github.vndovr.common.mapper.ConstraintViolationExceptionMapper;
 import com.github.vndovr.common.mapper.DataIntegrityViolationExceptionMapper;
 import com.github.vndovr.common.mapper.FeignExceptionMapper;
@@ -44,14 +45,15 @@ import io.swagger.v3.oas.annotations.servers.Server;
     in = SecuritySchemeIn.HEADER, scheme = "bearer")
 @EnableFeignClients
 @EnableCaching
-public class Application extends ResourceConfig {
+public class BeneficiariesApplication extends ResourceConfig {
 
   /**
    * Default constructor
    */
-  public Application() {
+  public BeneficiariesApplication() {
     super();
     register(OpenApiResource.class);
+    register(BeneficiaryResource.class);
 
     register(ObjectMapperContextResolver.class);
     register(StaleObjectStateExceptionMapper.class);
@@ -73,7 +75,7 @@ public class Application extends ResourceConfig {
    * @param args
    */
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    SpringApplication.run(BeneficiariesApplication.class, args);
   }
 
   /**

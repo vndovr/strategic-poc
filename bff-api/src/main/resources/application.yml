@@ -4,7 +4,7 @@ server:
 spring:
 
   profiles:
-    active: staging
+    active: testing
     
   jersey:
     application-path: /api
@@ -68,4 +68,7 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
-      
+services:
+  col:
+    beneficiaries: http://localhost:8082/api/beneficiaries
+    holidays: http://localhost:8083/api/holidays
