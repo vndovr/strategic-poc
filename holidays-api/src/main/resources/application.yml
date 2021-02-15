@@ -4,7 +4,7 @@ server:
 spring:
 
   profiles:
-    active: testing
+    active: staging
     
   jersey:
     application-path: /api
@@ -51,14 +51,14 @@ management:
         include: "*"
 
 keycloak:
-  auth-server-url: http://localhost:9080/auth/
+  auth-server-url: http://localhost:7999/auth/
   realm: coworking
   resource: coworking
   ssl-required: none
   cors: true
   bearer-only: true
   credentials:
-    secret: bb4509f6-787e-4eb7-9988-31a7482a49e5
+    secret: 27495668-3a3a-4b63-997e-467880ebcc7c
   principal-attribute: preferred_username
         
 springdoc:

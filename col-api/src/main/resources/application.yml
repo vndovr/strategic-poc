@@ -1,11 +1,6 @@
 server:
   port: 8081
 
-spring:
-
-  profiles:
-    active: testing
-      
 management:
   endpoints:
     web:

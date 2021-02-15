@@ -1,6 +1,5 @@
 package com.github.vndovr.payment;
 
-import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,8 +8,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Controller;
 import com.github.vndovr.col.beneficiary.BeneficiariesClient;
-import com.github.vndovr.col.beneficiary.BeneficiaryROShort;
-import com.github.vndovr.col.holiday.PublicHolidayRO;
 import com.github.vndovr.col.holiday.PublicHolidaysClient;
 import com.github.vndovr.common.jaxrs.Descriptions;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,10 +45,13 @@ public class PaymentResource {
           @ApiResponse(responseCode = "500", description = Descriptions.D500)})
   @SneakyThrows
   public Response getRequisites() {
-    CompletableFuture<BeneficiaryROShort[]> beneficiaries =
-        CompletableFuture.supplyAsync(() -> beneficiariesClient.getBeneficiaries());
-    CompletableFuture<PublicHolidayRO[]> publicHolidays =
-        CompletableFuture.supplyAsync(() -> publicHolidaysClient.getPublicHolidays());
-    return Response.ok(new RequisiteRO(beneficiaries.get(), publicHolidays.get())).build();
+    // CompletableFuture<BeneficiaryROShort[]> beneficiaries =
+    // CompletableFuture.supplyAsync(() -> beneficiariesClient.getBeneficiaries());
+    //
+    // CompletableFuture<PublicHolidayRO[]> publicHolidays =
+    // CompletableFuture.supplyAsync(() -> publicHolidaysClient.getPublicHolidays());
+
+    return Response.ok(new RequisiteRO(beneficiariesClient.getBeneficiaries(),
+        publicHolidaysClient.getPublicHolidays())).build();
   }
 }

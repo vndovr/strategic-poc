@@ -45,12 +45,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
     in = SecuritySchemeIn.HEADER, scheme = "bearer")
 @EnableFeignClients
 @EnableCaching
-public class PublicHolidaysApplication extends ResourceConfig {
+public class HolidaysApplication extends ResourceConfig {
 
   /**
    * Default constructor
    */
-  public PublicHolidaysApplication() {
+  public HolidaysApplication() {
     super();
     register(OpenApiResource.class);
     register(PublicHolidayResource.class);
@@ -75,7 +75,7 @@ public class PublicHolidaysApplication extends ResourceConfig {
    * @param args
    */
   public static void main(String[] args) {
-    SpringApplication.run(PublicHolidaysApplication.class, args);
+    SpringApplication.run(HolidaysApplication.class, args);
   }
 
   /**

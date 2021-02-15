@@ -21,7 +21,6 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.github.vndovr.authentication.AuthenticationResource;
 import com.github.vndovr.common.mapper.ConstraintViolationExceptionMapper;
 import com.github.vndovr.common.mapper.FeignExceptionMapper;
-import com.github.vndovr.common.mapper.StaleObjectStateExceptionMapper;
 import com.github.vndovr.common.mapper.ValidationExceptionMapper;
 import com.github.vndovr.payment.PaymentResource;
 import feign.Contract;
@@ -56,7 +55,6 @@ public class BffApplication extends ResourceConfig {
     register(PaymentResource.class);
 
     register(ObjectMapperContextResolver.class);
-    register(StaleObjectStateExceptionMapper.class);
     register(ConstraintViolationExceptionMapper.class);
     register(ValidationExceptionMapper.class);
     register(FeignExceptionMapper.class);
@@ -88,7 +86,6 @@ public class BffApplication extends ResourceConfig {
     return modelMapper;
   }
 
-
   /**
    * JaxRS http REST client (mainly for keycloak now)
    * 
@@ -105,5 +102,4 @@ public class BffApplication extends ResourceConfig {
                 .registerModule(new JavaTimeModule()),
             JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS)));
   }
-
 }

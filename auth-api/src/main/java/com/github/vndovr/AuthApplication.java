@@ -20,10 +20,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.github.vndovr.authentication.AuthenticationResource;
 import com.github.vndovr.common.mapper.ConstraintViolationExceptionMapper;
-import com.github.vndovr.common.mapper.DataIntegrityViolationExceptionMapper;
 import com.github.vndovr.common.mapper.FeignExceptionMapper;
-import com.github.vndovr.common.mapper.ObjectOptimisticLockingFailureExceptionMapper;
-import com.github.vndovr.common.mapper.StaleObjectStateExceptionMapper;
 import com.github.vndovr.common.mapper.ValidationExceptionMapper;
 import feign.Contract;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
@@ -56,9 +53,6 @@ public class AuthApplication extends ResourceConfig {
     register(AuthenticationResource.class);
 
     register(ObjectMapperContextResolver.class);
-    register(StaleObjectStateExceptionMapper.class);
-    register(ObjectOptimisticLockingFailureExceptionMapper.class);
-    register(DataIntegrityViolationExceptionMapper.class);
     register(ConstraintViolationExceptionMapper.class);
     register(ValidationExceptionMapper.class);
     register(FeignExceptionMapper.class);

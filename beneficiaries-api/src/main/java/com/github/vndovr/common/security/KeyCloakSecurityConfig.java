@@ -66,8 +66,7 @@ class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     super.configure(http);
     (h2ConsoleEnabled ? http.headers().frameOptions().disable().and() : http).cors().and().csrf()
-        .disable().authorizeRequests()
-        .antMatchers("/api/login", "/api/refresh", "/api/logout", "/api/openapi.json").permitAll()
+        .disable().authorizeRequests().antMatchers("/api/openapi.json").permitAll()
         .antMatchers("/api/**").authenticated().anyRequest().permitAll();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
