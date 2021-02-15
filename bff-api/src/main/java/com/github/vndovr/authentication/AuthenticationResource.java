@@ -2,6 +2,7 @@ package com.github.vndovr.authentication;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -12,11 +13,13 @@ import com.github.vndovr.col.auth.AuthenticationClient;
 import com.github.vndovr.col.auth.LoginRequestRO;
 import com.github.vndovr.col.auth.LoginResponseRO;
 import com.github.vndovr.col.auth.RefreshTokenRO;
+import com.github.vndovr.col.auth.SelfRO;
 import com.github.vndovr.common.jaxrs.Descriptions;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +78,22 @@ public class AuthenticationResource {
           @ApiResponse(responseCode = "500", description = Descriptions.D500)})
   public Response refresh(@Valid RefreshTokenRO dto) {
     return Response.ok(authenticationClient.refresh(dto)).build();
+  }
+
+  @Path("/self")
+  @GET
+  @Operation(summary = "Returns the information about current user",
+      security = @SecurityRequirement(name = "bearer"),
+      responses = {
+          @ApiResponse(responseCode = "200", description = Descriptions.D200,
+              content = @Content(mediaType = javax.ws.rs.core.MediaType.APPLICATION_JSON,
+                  schema = @Schema(implementation = SelfRO.class))),
+          @ApiResponse(responseCode = "400", description = Descriptions.D400),
+          @ApiResponse(responseCode = "401", description = Descriptions.D401),
+          @ApiResponse(responseCode = "403", description = Descriptions.D403),
+          @ApiResponse(responseCode = "500", description = Descriptions.D500)})
+  public Response self() {
+    return Response.ok(authenticationClient.self()).build();
   }
 
 

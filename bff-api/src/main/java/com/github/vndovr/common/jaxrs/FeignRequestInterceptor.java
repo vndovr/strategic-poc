@@ -1,8 +1,6 @@
 package com.github.vndovr.common.jaxrs;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import com.github.vndovr.Profiles;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.AllArgsConstructor;
@@ -16,7 +14,6 @@ import lombok.SneakyThrows;
  */
 @Component
 @AllArgsConstructor
-@Profile(Profiles.STAGING)
 public class FeignRequestInterceptor implements RequestInterceptor {
 
   @Override

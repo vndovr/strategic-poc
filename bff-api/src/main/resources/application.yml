@@ -1,17 +1,17 @@
 server:
   port: 8080
+  
+security:
+  basic:
+    enabled: false
 
 spring:
 
-  profiles:
-    active: testing
-    
   jersey:
     application-path: /api
     
   datasource:
     url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE
-    
 
   h2:
     console:
@@ -37,4 +37,4 @@ services:
   col:
     beneficiaries: http://localhost:8081/api/beneficiaries
     holidays: http://localhost:8081/api/holidays
-    authentication: http://localhost:8084/api/
+    authentication: http://localhost:8081/api/
