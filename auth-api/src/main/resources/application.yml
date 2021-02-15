@@ -23,7 +23,7 @@ keycloak:
   cors: true
   bearer-only: true
   credentials:
-    secret: 27495668-3a3a-4b63-997e-467880ebcc7c
+    secret: 45f323e1-4fa0-4ddb-a8bd-4321d8e0e20a
   principal-attribute: preferred_username
         
 springdoc:

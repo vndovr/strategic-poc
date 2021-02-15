@@ -8,8 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +20,10 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.github.vndovr.common.mapper.ConstraintViolationExceptionMapper;
 import com.github.vndovr.common.mapper.DataIntegrityViolationExceptionMapper;
-import com.github.vndovr.common.mapper.FeignExceptionMapper;
 import com.github.vndovr.common.mapper.ObjectOptimisticLockingFailureExceptionMapper;
 import com.github.vndovr.common.mapper.StaleObjectStateExceptionMapper;
 import com.github.vndovr.common.mapper.ValidationExceptionMapper;
 import com.github.vndovr.holiday.PublicHolidayResource;
-import feign.Contract;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
@@ -43,8 +41,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
     servers = {@Server(url = "http://localhost:8083/api", description = "Local Server")})
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT",
     in = SecuritySchemeIn.HEADER, scheme = "bearer")
-@EnableFeignClients
 @EnableCaching
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class HolidaysApplication extends ResourceConfig {
 
   /**
@@ -61,12 +59,6 @@ public class HolidaysApplication extends ResourceConfig {
     register(DataIntegrityViolationExceptionMapper.class);
     register(ConstraintViolationExceptionMapper.class);
     register(ValidationExceptionMapper.class);
-    register(FeignExceptionMapper.class);
-  }
-
-  @Bean
-  public Contract feignContract() {
-    return new JAXRSContract();
   }
 
   /**

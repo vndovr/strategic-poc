@@ -1,16 +1,16 @@
 package com.github.vndovr.common.security;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import javax.servlet.http.HttpServletRequest;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import java.util.stream.Collectors;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Wraps and extracts information about current user
@@ -27,10 +27,37 @@ public class LoginContext {
    * @return
    */
   public String getUserId() {
-    return Optional.ofNullable(keycloakSecurityContext())
-        .map(keycloakSecurityContext -> keycloakSecurityContext.getToken().getPreferredUsername())
+    return Optional.ofNullable(jwt()).map(jwt -> (String) jwt.getClaim("preferred_username"))
         .orElse("anonymouse");
   }
+
+  /**
+   * Returns the user email
+   * 
+   * @return
+   */
+  public String getUserEmail() {
+    return Optional.ofNullable(jwt()).map(jwt -> (String) jwt.getClaim("email")).orElse("");
+  }
+
+  /**
+   * Returns the username
+   * 
+   * @return
+   */
+  public String getFirstName() {
+    return Optional.ofNullable(jwt()).map(jwt -> (String) jwt.getClaim("given_name")).orElse("");
+  }
+
+  /**
+   * Returns the username
+   * 
+   * @return
+   */
+  public String getLastName() {
+    return Optional.ofNullable(jwt()).map(jwt -> (String) jwt.getClaim("family_name")).orElse("");
+  }
+
 
   /**
    * Returns the list of roles assigned to user
@@ -38,25 +65,11 @@ public class LoginContext {
    * @return
    */
   public Set<String> getRoles() {
-    return Optional.ofNullable(keycloakSecurityContext()).map(
-        keycloakSecurityContext -> keycloakSecurityContext.getToken().getRealmAccess().getRoles())
+    return Optional
+        .ofNullable(authorities()).map(authorities -> authorities.stream()
+            .map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
         .orElse(Collections.emptySet());
   }
-
-  /**
-   * Returns the list of groups assigned to user
-   * 
-   * @return
-   */
-  @SuppressWarnings("unchecked")
-  public Set<String> getGroups() {
-    return Optional.ofNullable(keycloakSecurityContext())
-        .map(keycloakSecurityContext -> (Set<String>) new HashSet<String>(
-            (ArrayList<String>) keycloakSecurityContext.getToken().getOtherClaims()
-                .getOrDefault("groups", Collections.emptySet())))
-        .orElse(Collections.emptySet());
-  }
-
 
   /**
    * Checks if user has specific role assigned
@@ -75,45 +88,15 @@ public class LoginContext {
   }
 
   /**
-   * Returns the user name
+   * Returns the keycloack security context if one exists
    * 
    * @return
    */
-  public String getName() {
-    return Optional.ofNullable(keycloakSecurityContext())
-        .map(keycloakSecurityContext -> keycloakSecurityContext.getToken().getName()).orElse("");
-  }
-
-  /**
-   * Returns the user email
-   * 
-   * @return
-   */
-  public String getUserEmail() {
-    return Optional.ofNullable(keycloakSecurityContext())
-        .map(keycloakSecurityContext -> keycloakSecurityContext.getToken().getEmail()).orElse("");
-  }
-
-  /**
-   * Returns the username
-   * 
-   * @return
-   */
-  public String getFirstName() {
-    return Optional.ofNullable(keycloakSecurityContext())
-        .map(keycloakSecurityContext -> keycloakSecurityContext.getToken().getGivenName())
-        .orElse("");
-  }
-
-  /**
-   * Returns the username
-   * 
-   * @return
-   */
-  public String getLastName() {
-    return Optional.ofNullable(keycloakSecurityContext())
-        .map(keycloakSecurityContext -> keycloakSecurityContext.getToken().getFamilyName())
-        .orElse("");
+  private Jwt jwt() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return authentication instanceof JwtAuthenticationToken
+        ? ((JwtAuthenticationToken) authentication).getToken()
+        : null;
   }
 
   /**
@@ -121,12 +104,11 @@ public class LoginContext {
    * 
    * @return
    */
-  public KeycloakSecurityContext keycloakSecurityContext() {
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-    return request.getUserPrincipal() instanceof KeycloakAuthenticationToken
-        ? (KeycloakSecurityContext) ((KeycloakAuthenticationToken) request.getUserPrincipal())
-            .getCredentials()
+  private Collection<GrantedAuthority> authorities() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return authentication instanceof JwtAuthenticationToken
+        ? ((JwtAuthenticationToken) authentication).getAuthorities()
         : null;
   }
+
 }

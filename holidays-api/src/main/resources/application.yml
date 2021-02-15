@@ -43,23 +43,18 @@ spring:
       settings:
         web-admin-password: 
         web-allow-others: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7999/auth/realms/coworking              
       
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-
-keycloak:
-  auth-server-url: http://localhost:7999/auth/
-  realm: coworking
-  resource: coworking
-  ssl-required: none
-  cors: true
-  bearer-only: true
-  credentials:
-    secret: 27495668-3a3a-4b63-997e-467880ebcc7c
-  principal-attribute: preferred_username
         
 springdoc:
   api-docs:
