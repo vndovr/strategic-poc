@@ -12,30 +12,6 @@ spring:
   datasource:
     url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE
     
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-    properties:
-      javax:
-        persistence:
-          sharedCache:
-            mode: ENABLE_SELECTIVE
-      hibernate:
-        format_sql: true
-        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
-        temp:
-          use_jdbc_metadata_defaults: false
-        cache:
-          use_second_level_cache: true
-          use_query_cache: true
-          region:
-            factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-          
-  cache:
-    ehcache:
-      config: classpath:ehcache.xml
 
   h2:
     console:
@@ -49,17 +25,6 @@ management:
     web:
       exposure:
         include: "*"
-
-keycloak:
-  auth-server-url: http://localhost:9080/auth/
-  realm: coworking
-  resource: coworking
-  ssl-required: none
-  cors: true
-  bearer-only: true
-  credentials:
-    secret: bb4509f6-787e-4eb7-9988-31a7482a49e5
-  principal-attribute: preferred_username
         
 springdoc:
   api-docs:
@@ -72,3 +37,4 @@ services:
   col:
     beneficiaries: http://localhost:8081/api/beneficiaries
     holidays: http://localhost:8081/api/holidays
+    authentication: http://localhost:8084/api/

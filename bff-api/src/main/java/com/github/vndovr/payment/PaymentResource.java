@@ -13,7 +13,6 @@ import com.github.vndovr.col.beneficiary.BeneficiaryROShort;
 import com.github.vndovr.col.holiday.PublicHolidayRO;
 import com.github.vndovr.col.holiday.PublicHolidaysClient;
 import com.github.vndovr.common.jaxrs.Descriptions;
-import com.github.vndovr.user.SelfRO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,7 +41,7 @@ public class PaymentResource {
       responses = {
           @ApiResponse(responseCode = "200", description = Descriptions.D200,
               content = @Content(mediaType = javax.ws.rs.core.MediaType.APPLICATION_JSON,
-                  schema = @Schema(implementation = SelfRO.class))),
+                  schema = @Schema(implementation = RequisiteRO.class))),
           @ApiResponse(responseCode = "400", description = Descriptions.D400),
           @ApiResponse(responseCode = "401", description = Descriptions.D401),
           @ApiResponse(responseCode = "403", description = Descriptions.D403),

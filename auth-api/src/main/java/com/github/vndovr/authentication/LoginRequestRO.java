@@ -7,8 +7,8 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "DTO with information required for login", required = true)
-public class LoginRequestDto {
+@Schema(description = "RO with information required for login", required = true)
+public class LoginRequestRO {
 
   @Schema(description = "user's login", required = true)
   @NotBlank

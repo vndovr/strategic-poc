@@ -1,0 +1,74 @@
+server:
+  port: 8084
+
+spring:
+
+  profiles:
+    active: testing
+    
+  jersey:
+    application-path: /api
+    
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE
+    
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        format_sql: true
+        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+        temp:
+          use_jdbc_metadata_defaults: false
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+          
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-admin-password: 
+        web-allow-others: true
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+keycloak:
+  auth-server-url: http://localhost:7999/auth/
+  realm: coworking
+  resource: coworking
+  ssl-required: none
+  cors: true
+  bearer-only: true
+  credentials:
+    secret: 27495668-3a3a-4b63-997e-467880ebcc7c
+  principal-attribute: preferred_username
+        
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/openapi.json
+  swagger-ui:
+    path: /swagger-ui.html
+
+services:
+  col:
+    beneficiaries: http://localhost:8081/api/beneficiaries
+    holidays: http://localhost:8081/api/holidays

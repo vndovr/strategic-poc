@@ -21,7 +21,11 @@ public class ColApplication {
   @Bean
   public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
     return builder.routes()
-        .route("beneficiaries_route", r -> r.path("/api/beneficiaries").uri("http://localhost:8082"))
+        .route("beneficiaries_route",
+            r -> r.path("/api/beneficiaries").uri("http://localhost:8082"))
+        .route("authentication_route",
+            r -> r.path("/api/login", "/api/logout", "/api/refresh", "/api/self")
+                .uri("http://localhost:8084"))
         .route("holidays_route", r -> r.path("/api/holidays").uri("http://localhost:8083")).build();
   }
 

@@ -34,7 +34,7 @@ class AuthenticationService {
    * @param dto
    * @return
    */
-  public LoginResponseDto login(LoginRequestDto dto) {
+  public LoginResponseRO login(LoginRequestRO dto) {
     Form form = new Form();
     form.param(OAuth2Constants.GRANT_TYPE, OAuth2Constants.PASSWORD);
     form.param(OAuth2Constants.CLIENT_ID, keyCloakSecuritySettings.getKeycloakClient());
@@ -48,7 +48,7 @@ class AuthenticationService {
     AccessTokenResponse response =
         builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED)
             .post(Entity.form(form), AccessTokenResponse.class);
-    return new LoginResponseDto(response.getToken(), response.getRefreshToken());
+    return new LoginResponseRO(response.getToken(), response.getRefreshToken());
   }
 
   /**
@@ -57,7 +57,7 @@ class AuthenticationService {
    * @param token
    * @return
    */
-  public LoginResponseDto refresh(String token) {
+  public LoginResponseRO refresh(String token) {
     Form form = new Form();
     form.param(OAuth2Constants.GRANT_TYPE, OAuth2Constants.REFRESH_TOKEN);
     form.param(OAuth2Constants.CLIENT_ID, keyCloakSecuritySettings.getKeycloakClient());
@@ -70,7 +70,7 @@ class AuthenticationService {
     AccessTokenResponse response =
         builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED)
             .post(Entity.form(form), AccessTokenResponse.class);
-    return new LoginResponseDto(response.getToken(), response.getRefreshToken());
+    return new LoginResponseRO(response.getToken(), response.getRefreshToken());
   }
 
   /**

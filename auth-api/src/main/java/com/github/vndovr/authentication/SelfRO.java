@@ -1,4 +1,4 @@
-package com.github.vndovr.user;
+package com.github.vndovr.authentication;
 
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

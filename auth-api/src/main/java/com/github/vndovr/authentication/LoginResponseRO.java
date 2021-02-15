@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "DTO that contains new generated tokens", required = true)
-public class LoginResponseDto {
+@Schema(description = "RO that contains new generated tokens", required = true)
+public class LoginResponseRO {
 
   @Schema(description = "Access token for API calls", required = true)
   private String accessToken;
