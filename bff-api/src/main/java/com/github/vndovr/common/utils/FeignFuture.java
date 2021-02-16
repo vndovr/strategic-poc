@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FeignFuture {
 
-  public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier) {
+  public static <U> CompletableFuture<U> supply_Async(Supplier<U> supplier) {
     RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
     if (requestAttributes instanceof ServletRequestAttributes) {
       HttpServletRequest httpServletRequest =
@@ -21,7 +21,7 @@ public class FeignFuture {
       return CompletableFuture
           .supplyAsync(new FeignSupplier<>(new RequestHeaders(httpServletRequest), supplier));
     } else {
-      throw new RuntimeException("No access to Http Servlet Request object"); // NOSONAR
+      throw new RuntimeException("No access to HttpServletRequest object"); // NOSONAR
     }
   }
 }

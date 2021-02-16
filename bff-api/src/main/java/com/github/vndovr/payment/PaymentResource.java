@@ -14,6 +14,7 @@ import com.github.vndovr.col.holiday.PublicHolidayRO;
 import com.github.vndovr.col.holiday.PublicHolidaysClient;
 import com.github.vndovr.common.jaxrs.Descriptions;
 import com.github.vndovr.common.utils.FeignFuture;
+import com.github.vndovr.common.utils.FeignSupplier;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,10 +52,10 @@ public class PaymentResource {
   public Response getRequisites() {
 
     CompletableFuture<BeneficiaryROShort[]> beneficiaries =
-        FeignFuture.supplyAsync(() -> beneficiariesClient.getBeneficiaries());
+        CompletableFuture.supplyAsync(FeignSupplier.wrap(() -> beneficiariesClient.getBeneficiaries()));
 
     CompletableFuture<PublicHolidayRO[]> publicHolidays =
-        FeignFuture.supplyAsync(() -> publicHolidaysClient.getPublicHolidays());
+        CompletableFuture.supplyAsync(FeignSupplier.wrap(() -> publicHolidaysClient.getPublicHolidays()));
 
     return Response.ok(new RequisiteRO(beneficiaries.get(), publicHolidays.get())).build();
   }

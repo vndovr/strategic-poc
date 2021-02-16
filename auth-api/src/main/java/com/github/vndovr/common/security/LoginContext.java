@@ -1,8 +1,8 @@
 package com.github.vndovr.common.security;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +52,8 @@ public class LoginContext {
   public Set<String> getGroups() {
     return Optional.ofNullable(keycloakSecurityContext())
         .map(keycloakSecurityContext -> (Set<String>) new HashSet<String>(
-            (ArrayList<String>) keycloakSecurityContext.getToken().getOtherClaims()
-                .getOrDefault("groups", Collections.emptySet())))
+            (List<String>) keycloakSecurityContext.getToken().getOtherClaims()
+                .getOrDefault("groups", Collections.emptyList())))
         .orElse(Collections.emptySet());
   }
 
